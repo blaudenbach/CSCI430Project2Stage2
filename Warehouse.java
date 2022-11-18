@@ -50,6 +50,37 @@ public class Warehouse implements Serializable {
         return true;
     }
 
+    public boolean removeFromClientWishlist(String cid, String pid){
+        Client client = clients.findClient(cid);
+        Product product = products.findProduct(pid);
+
+
+        if((client == null) || (product == null)){
+            System.out.println("Invalid information entered.");
+            return false;
+        }
+
+        WishList wishlist = client.getWishList();
+        Entry entry = wishlist.findEntry(product);
+
+        return wishlist.removeEntry(entry);
+    }
+
+    public boolean editWishlistQuantity(String cid, String pid, int quantity){
+        Client client = clients.findClient(cid);
+        Product product = products.findProduct(pid);
+
+        if((client == null) || (product == null)){
+            System.out.println("Invalid information entered.");
+            return false;
+        }
+
+        WishList wishlist = client.getWishList();
+        Entry entry = wishlist.findEntry(product);
+
+        return wishlist.editEntryQuantity(entry, quantity);
+    }
+
 
     public void displayClients(){
         clients.displayList();
@@ -302,5 +333,9 @@ public class Warehouse implements Serializable {
         else{
             return true;
         }
+    }
+
+    public void displayInactiveClients(){
+        clients.displayInactiveClients();
     }
 }

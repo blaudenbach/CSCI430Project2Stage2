@@ -67,4 +67,13 @@ public class Client implements Serializable {
     invoices.addInvoice(invoice);
   }
 
+  public boolean isActive(){
+    if(invoices.hasRecent()){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
 }

@@ -25,6 +25,28 @@ public class WishList implements Serializable {
     }
   }
 
+  public boolean removeEntry(Entry entry){
+    Entry result = findEntry(entry.getProduct());
+    if(result == null){
+      return false;
+    }
+    else{
+      entries.remove(result);
+      return true;
+    }
+  }
+
+  public boolean editEntryQuantity(Entry entry, int qty){
+    Entry result = findEntry(entry.getProduct());
+    if(result == null){
+      return false;
+    }
+    else{
+      result.setQuantity(qty);
+      return true;
+    }
+  }
+
   public String toString() {
     return entries.toString();
   }

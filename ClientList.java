@@ -62,6 +62,16 @@ public class ClientList implements Serializable {
     return clients.toString();
   }
 
+  public void displayInactiveClients(){
+    for(Iterator<?> current = clients.iterator(); current.hasNext();){
+      Client C = (Client) current.next();
+
+      if(!C.isActive()){
+        System.out.println(C.toString());
+      }
+    }
+  }
+
   public Client findClient(String cid){
     Iterator<?> current = clients.iterator();
     while(current.hasNext()){

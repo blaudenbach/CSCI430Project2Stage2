@@ -7,12 +7,11 @@ public class ClerkMenuState extends WareState {
   private static final int EXIT = 0;
   private static final int ADD_CLIENT = 1;
   private static final int LIST_PRODUCTS = 5;
-  private static final int LIST_CLIENTS = 4;
-  private static final int LIST_CLIENTS_OUTSTANDING = 8;
+  private static final int CLIENT_QUERY = 20;
   private static final int ACCEPT_PAYMENT = 13;
   private static final int BECOME_CLIENT = 14;
   private static final int DISPLAY_PRODUCT_WAITLIST = 9;
-  private static final int HELP = 16;
+  private static final int HELP = 21;
   
   private ClerkMenuState() {
     warehouse = Warehouse.instance();
@@ -31,8 +30,7 @@ public class ClerkMenuState extends WareState {
     System.out.println(EXIT + "  | Exit");
     System.out.println(ADD_CLIENT + "  | Add a client");
     System.out.println(LIST_PRODUCTS + "  | List all products and information");
-    System.out.println(LIST_CLIENTS + "  | List all clients and information");
-    System.out.println(LIST_CLIENTS_OUTSTANDING + "  | List clients with an outstanding balance");
+    System.out.println(CLIENT_QUERY + "  | Perform a client query action");
     System.out.println(ACCEPT_PAYMENT + " | Accept a client payment");
     if(WareContext.instance().getLogin() == WareContext.IsClerk){
       System.out.println(BECOME_CLIENT + " | Log in as a client");
@@ -54,11 +52,8 @@ public class ClerkMenuState extends WareState {
         case LIST_PRODUCTS:
             displayProducts();
             break;
-        case LIST_CLIENTS:
-            displayClients();
-            break;
-        case LIST_CLIENTS_OUTSTANDING:
-            displayOutstandingBalances();
+        case CLIENT_QUERY:
+            clientQuery();
             break;
         case ACCEPT_PAYMENT:
             acceptPayment();
@@ -105,12 +100,8 @@ public class ClerkMenuState extends WareState {
     warehouse.displayProducts();
   }
 
-  public void displayClients(){
-    warehouse.displayClients();
-  }
-
-  public void displayOutstandingBalances(){
-    warehouse.displayClientsWithBalance();
+  public void clientQuery(){
+    WareContext.instance().changeState(4);
   }
 
   public void acceptPayment(){

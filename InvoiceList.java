@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+import java.time.LocalDate; 
 public class InvoiceList implements Serializable{
     private static final long serialVersionUID = 1L;
     private LinkedList<Invoice> invoices;
@@ -17,6 +18,21 @@ public class InvoiceList implements Serializable{
 
     public String toString(){
         return invoices.toString();
+    }
+
+    public boolean hasRecent(){
+      LocalDate now = LocalDate.now();
+      LocalDate cutoff = now.minusMonths(6);
+
+      for(Iterator<?> current = invoices.iterator(); current.hasNext();){
+        Invoice I = (Invoice) current;
+
+        if(I.getDate().isAfter(cutoff)){
+          return true;
+        }
+      }
+
+      return false;
     }
 
     private static void writeObject(java.io.ObjectOutputStream output) {

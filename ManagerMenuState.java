@@ -9,7 +9,7 @@ public class ManagerMenuState extends WareState {
   private static final int ADD_PRODUCT = 2;
   private static final int RECEIVE_SHIPMENT = 10;
   private static final int BECOME_CLERK = 15;
-  private static final int HELP = 16;
+  private static final int HELP = 22;
   private ManagerMenuState() {
     warehouse = Warehouse.instance();
   }

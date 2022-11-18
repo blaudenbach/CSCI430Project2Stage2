@@ -11,7 +11,7 @@ public class ClientMenuState extends WareState {
   private static final int PLACE_ORDER = 7;
   private static final int SHOW_DETAILS = 11;
   private static final int DISPLAY_TRANSACTIONS = 12;
-  private static final int HELP = 16;
+  private static final int HELP = 22;
   private ClientMenuState() {
     warehouse = Warehouse.instance();
   }
@@ -74,29 +74,7 @@ public class ClientMenuState extends WareState {
   }
 
   public void modifyCart(){
-    String clientID = WareContext.instance().getClient();
-
-    do{
-        System.out.print("Enter product ID: ");
-        String productID = reader.nextLine();
-        System.out.print("Enter product quantity: ");
-        int quantity = Integer.parseInt(reader.nextLine());
-        if(warehouse.addToClientWishlist(clientID, productID, quantity)){
-            System.out.println("Added product to wishlist");
-        }
-        else{
-            System.out.println("Invalid information.");
-        }
-        System.out.print("Add another product? (Y/N): ");
-        String choice = reader.nextLine();
-        if(choice.equals("Y") || choice.equals("y")){
-          continue;
-        }
-        else{
-          break;
-        }
-    } while (true);
-
+    WareContext.instance().changeState(3);
   }
 
   public void displayProducts(){

@@ -1,14 +1,17 @@
 import java.io.Serializable;
 import java.util.*;
+import java.time.*;
 
 public class Invoice implements Serializable {
     private LinkedList<Entry> entries;
     private static Invoice invoice;
     private float total;
+    private LocalDate date;
 
     public Invoice(){
         entries = new LinkedList<Entry>();
         total = 0;
+        date = LocalDate.now();
     }
 
     public static Invoice instance(){
@@ -57,6 +60,10 @@ public class Invoice implements Serializable {
 
     public float getTotal(){
         return total;
+    }
+
+    public LocalDate getDate(){
+        return date;
     }
 
 }
