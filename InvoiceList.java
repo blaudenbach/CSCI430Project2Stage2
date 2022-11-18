@@ -25,7 +25,7 @@ public class InvoiceList implements Serializable{
       LocalDate cutoff = now.minusMonths(6);
 
       for(Iterator<?> current = invoices.iterator(); current.hasNext();){
-        Invoice I = (Invoice) current;
+        Invoice I = (Invoice) current.next();
 
         if(I.getDate().isAfter(cutoff)){
           return true;

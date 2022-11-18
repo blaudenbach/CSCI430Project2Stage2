@@ -4,7 +4,7 @@ public class LoginState extends WareState{
   private static final int CLIENT_LOGIN = 0;
   private static final int CLERK_LOGIN = 1;
   private static final int MANAGER_LOGIN = 2;
-  private static final int EXIT = 3;
+  private static final int EXIT = 5;
   private Scanner reader = new Scanner(System.in);
   //private WareContext context;
   private static LoginState instance;
@@ -25,7 +25,7 @@ public class LoginState extends WareState{
     String clientID = reader.nextLine();
     if (Warehouse.instance().searchClient(clientID)){  //Warehouse.instance()
       (WareContext.instance()).setLogin(WareContext.IsClient);
-      (WareContext.instance()).setUser(clientID);      
+      (WareContext.instance()).setUser(clientID);
       (WareContext.instance()).changeState(0);
     }
     else 
@@ -48,7 +48,7 @@ public class LoginState extends WareState{
     System.out.println("0 | Login as Client\n"+ 
                         "1 | Login as Clerk\n" +
                         "2 | Login as Manager\n" +
-                        "3 | Exit the system\n");
+                        "5 | Exit the system\n");
     command = Integer.parseInt(reader.nextLine());
     while (command != EXIT) {
       switch (command) {
@@ -69,10 +69,10 @@ public class LoginState extends WareState{
       System.out.println("0 | Login as Client\n"+ 
                           "1 | Login as Clerk\n" +
                           "2 | Login as Manager\n" +
-                          "3 | Exit the system\n");
+                          "5 | Exit the system\n");
       command = Integer.parseInt(reader.nextLine());
     }
-    (WareContext.instance()).changeState(3);
+    (WareContext.instance()).changeState(5);
   }
 
   public void run() {

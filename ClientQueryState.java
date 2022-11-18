@@ -74,6 +74,6 @@ public class ClientQueryState extends WareState{
     }
       
     public void logout(){
-        WareContext.instance().changeState(1);
+        WareContext.instance().changeState(4);
     }
 }

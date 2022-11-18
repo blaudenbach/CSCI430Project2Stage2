@@ -121,7 +121,7 @@ public class ModifyCartState extends WareState{
     }
       
     public void logout(){
-        WareContext.instance().changeState(0);
+        WareContext.instance().changeState(3);
     }
 
 }
