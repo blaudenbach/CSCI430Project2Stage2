@@ -130,13 +130,13 @@ public class Warehouse implements Serializable {
                 + "3 - Order product with new quantity"));
 
             if(choice == 2){
-                invoice.addEntry(entry, client);
+                invoice.addEntry(entry, client, frame);
                 current.remove();
             }
             else if(choice == 3){
                 int qty = Integer.parseInt(JOptionPane.showInputDialog(frame, "Enter new quantity:"));
                 entry.setQuantity(qty);
-                invoice.addEntry(entry, client);
+                invoice.addEntry(entry, client, frame);
                 current.remove();
             }
         }
@@ -213,7 +213,7 @@ public class Warehouse implements Serializable {
             shipment.removeQuantity(entry.getQuantity());
 
             Invoice invoice = new Invoice();
-            invoice.addEntry(entry, request.getClient());
+            invoice.addEntry(entry, request.getClient(), frame);
             request.getClient().charge(invoice.getTotal());
         }
 

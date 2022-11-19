@@ -24,7 +24,7 @@ public class Invoice implements Serializable {
         }
     }
 
-    public boolean addEntry(Entry entry, Client client)
+    public boolean addEntry(Entry entry, Client client, JFrame frame)
     {
         //Get amount of product in stock
         int stock = entry.getProduct().getStock();
@@ -38,7 +38,7 @@ public class Invoice implements Serializable {
             Waitlist waitlist = entry.getProduct().getWaitlist();
             Request request = new Request(numRequested, client);
             waitlist.addRequest(request);
-            System.out.println("The product is partially out of stock.\nOrdered " + stock + " and waitlisted " + numRequested + "."); //Let's the user know not all of it was ordered.
+            JOptionPane.showMessageDialog(frame, "The product is partially out of stock.\nOrdered " + stock + " and waitlisted " + numRequested + "."); //Let's the user know not all of it was ordered.
         }
 
         //Add entry and update stock

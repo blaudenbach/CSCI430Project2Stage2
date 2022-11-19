@@ -11,11 +11,6 @@ public class ManagerMenuState extends WareState implements ActionListener{
   private static ManagerMenuState managermenustate;
   private Scanner reader = new Scanner(System.in);
   private static Warehouse warehouse;
-  private static final int EXIT = 0;
-  private static final int ADD_PRODUCT = 2;
-  private static final int RECEIVE_SHIPMENT = 10;
-  private static final int BECOME_CLERK = 15;
-  private static final int HELP = 22;
 
   private JFrame frame;
   private AbstractButton addProductButton, receiveShipmentButton, becomeClerkButton, exitButton;
@@ -46,43 +41,6 @@ public class ManagerMenuState extends WareState implements ActionListener{
     else if(e.getSource().equals(this.exitButton)){
       this.logout();
     }
-  }
-
-  public void help() {
-    System.out.println("MANAGER MENU");
-    System.out.println(EXIT + "  | Exit");
-    System.out.println(ADD_PRODUCT + "  | Add a product");
-    System.out.println(RECEIVE_SHIPMENT + " | Receive shipment for a product");
-    System.out.println(BECOME_CLERK + " | Become a clerk");
-    System.out.println(HELP + " | for help");
-  }
-
-  public void process() {
-    int command;
-    help();
-    command = Integer.parseInt(reader.nextLine());
-    while (command != EXIT) {
-      switch (command) {
-
-        case ADD_PRODUCT:
-            addProduct();
-            break;
-        case RECEIVE_SHIPMENT:
-            receiveShipment();
-            break;
-        case BECOME_CLERK:
-            becomeClerk();
-            break;
-        case HELP:
-            help();
-            break;
-        default:
-          System.out.println("Invalid choice");
-      }
-      help();
-      command = Integer.parseInt(reader.nextLine());
-    }
-    logout();
   }
 
   public void addProduct(){

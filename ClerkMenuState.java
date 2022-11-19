@@ -1,5 +1,3 @@
-import java.util.*;
-//import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -8,16 +6,8 @@ import javax.swing.*;
 
 public class ClerkMenuState extends WareState implements ActionListener{
   private static ClerkMenuState clerkmenustate;
-  private Scanner reader = new Scanner(System.in);
   private static Warehouse warehouse;
-  private static final int EXIT = 0;
-  private static final int ADD_CLIENT = 1;
-  private static final int LIST_PRODUCTS = 5;
-  private static final int CLIENT_QUERY = 20;
-  private static final int ACCEPT_PAYMENT = 13;
-  private static final int BECOME_CLIENT = 14;
-  private static final int DISPLAY_PRODUCT_WAITLIST = 9;
-  private static final int HELP = 21;
+
 
   private JFrame frame;
   private AbstractButton addClientButton, listProductsButton, clientQueryButton, acceptPaymentButton, becomeClientButton, displayWaitlistButton, exitButton;
@@ -60,60 +50,6 @@ public class ClerkMenuState extends WareState implements ActionListener{
     }
   }
 
-  public void help() {
-    System.out.println("CLERK MENU");
-    System.out.println(EXIT + "  | Exit");
-    System.out.println(ADD_CLIENT + "  | Add a client");
-    System.out.println(LIST_PRODUCTS + "  | List all products and information");
-    System.out.println(CLIENT_QUERY + "  | Perform a client query action");
-    System.out.println(ACCEPT_PAYMENT + " | Accept a client payment");
-    if(WareContext.instance().getLogin() == WareContext.IsClerk){
-      System.out.println(BECOME_CLIENT + " | Log in as a client");
-    }
-    System.out.println(DISPLAY_PRODUCT_WAITLIST + "  | Display a product's waitlist");
-    System.out.println(HELP + " | Help");
-  }
-
-  public void process() {
-    int command;
-    help();
-    command = Integer.parseInt(reader.nextLine());
-    while (command != EXIT) {
-      switch (command) {
-
-        case ADD_CLIENT:
-            addClient();
-            break;
-        case LIST_PRODUCTS:
-            displayProducts();
-            break;
-        case CLIENT_QUERY:
-            clientQuery();
-            break;
-        case ACCEPT_PAYMENT:
-            acceptPayment();
-            break;
-        case BECOME_CLIENT:
-            if (WareContext.instance().getLogin() == WareContext.IsManager){
-              System.out.println("You are logged in as a manager. Please log out first.");
-              break;
-            }
-            becomeClient();
-            break;
-        case DISPLAY_PRODUCT_WAITLIST:
-            displayProductWaitlist();
-            break;
-        case HELP:
-            help();
-            break;
-        default:
-          System.out.println("Invalid choice");
-      }
-      help();
-      command = Integer.parseInt(reader.nextLine());
-    }
-    logout();
-  }
 
   public void addClient(){
     String name = JOptionPane.showInputDialog(frame, "Enter client name:");

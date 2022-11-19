@@ -1,5 +1,3 @@
-import java.util.*;
-//import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -8,11 +6,6 @@ import javax.swing.*;
 
 
 public class LoginState extends WareState implements ActionListener{
-  private static final int CLIENT_LOGIN = 0;
-  private static final int CLERK_LOGIN = 1;
-  private static final int MANAGER_LOGIN = 2;
-  private static final int EXIT = 5;
-  private Scanner reader = new Scanner(System.in);
   //private WareContext context;
   private JFrame frame;
   private static LoginState instance;
@@ -52,8 +45,7 @@ public class LoginState extends WareState implements ActionListener{
   }
 
   private void client(){  //Client
-    System.out.print("Enter client ID: ");
-    String clientID = JOptionPane.showInputDialog(frame, "Input client ID: ");
+    String clientID = JOptionPane.showInputDialog(frame, "Enter client ID: ");
     if (Warehouse.instance().searchClient(clientID)){  //Warehouse.instance()
       (WareContext.instance()).setLogin(WareContext.IsClient);
       (WareContext.instance()).setUser(clientID);
@@ -71,39 +63,6 @@ public class LoginState extends WareState implements ActionListener{
   private void manager(){
     (WareContext.instance()).setLogin(WareContext.IsManager);
     (WareContext.instance()).changeState(2);
-  }
-
-  public void process() {
-    int command;
-    System.out.println("LOGIN SCREEN");
-    System.out.println("0 | Login as Client\n"+ 
-                        "1 | Login as Clerk\n" +
-                        "2 | Login as Manager\n" +
-                        "5 | Exit the system\n");
-    command = Integer.parseInt(reader.nextLine());
-    while (command != EXIT) {
-      switch (command) {
-        case CLIENT_LOGIN:
-          client();
-          break;
-        case CLERK_LOGIN:
-          clerk();
-          break;
-        case MANAGER_LOGIN:
-          manager();
-          break;
-
-        default:
-          System.out.println("Invalid choice");  
-      }
-      System.out.println("LOGIN SCREEN");
-      System.out.println("0 | Login as Client\n"+ 
-                          "1 | Login as Clerk\n" +
-                          "2 | Login as Manager\n" +
-                          "5 | Exit the system\n");
-      command = Integer.parseInt(reader.nextLine());
-    }
-    (WareContext.instance()).changeState(5);
   }
 
   public void run() {
