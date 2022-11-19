@@ -1,5 +1,7 @@
 import java.util.*;
 import java.io.*;
+import javax.swing.*;
+
 public class ClientList implements Serializable {
   private static final long serialVersionUID = 1L;
   private LinkedList<Client> clients;	
@@ -51,25 +53,31 @@ public class ClientList implements Serializable {
     }
   }
 
-  public void displayList(){
+  public void displayList(JFrame frame){
+    String lineString = "";
 	  for(Iterator<?> current = clients.iterator(); current.hasNext();){
 		  Client C = (Client) current.next();
-		  System.out.println(C.toString());
+		  
+      lineString += C.toString() + "\n";
 	  }
+
+    JOptionPane.showMessageDialog(frame, lineString);
   }
 
   public String toString() {
     return clients.toString();
   }
 
-  public void displayInactiveClients(){
+  public void displayInactiveClients(JFrame frame){
+    String lineString = "";
     for(Iterator<?> current = clients.iterator(); current.hasNext();){
       Client C = (Client) current.next();
 
       if(!C.isActive()){
-        System.out.println(C.toString());
+        lineString += C.toString() + "\n";
       }
     }
+    JOptionPane.showMessageDialog(frame, "Inactive Clients:\n" + lineString);
   }
 
   public Client findClient(String cid){

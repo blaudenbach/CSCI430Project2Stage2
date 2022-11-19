@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.*;
 import java.io.*;
 
@@ -35,12 +36,12 @@ public class Warehouse implements Serializable {
         return null;
     }
 
-    public boolean addToClientWishlist(String cid, String pid, int quantity) {
+    public boolean addToClientWishlist(String cid, String pid, int quantity, JFrame frame) {
         Client client = clients.findClient(cid);
         Product product = products.findProduct(pid);
 
         if((client == null) || (product == null)){
-            System.out.println("Invalid information entered.");
+            JOptionPane.showMessageDialog(frame, "Invalid information entered.");
             return false;
         }
 
@@ -50,13 +51,13 @@ public class Warehouse implements Serializable {
         return true;
     }
 
-    public boolean removeFromClientWishlist(String cid, String pid){
+    public boolean removeFromClientWishlist(String cid, String pid, JFrame frame){
         Client client = clients.findClient(cid);
         Product product = products.findProduct(pid);
 
 
         if((client == null) || (product == null)){
-            System.out.println("Invalid information entered.");
+            JOptionPane.showMessageDialog(frame, "Invalid information entered.");
             return false;
         }
 
@@ -66,12 +67,12 @@ public class Warehouse implements Serializable {
         return wishlist.removeEntry(entry);
     }
 
-    public boolean editWishlistQuantity(String cid, String pid, int quantity){
+    public boolean editWishlistQuantity(String cid, String pid, int quantity, JFrame frame){
         Client client = clients.findClient(cid);
         Product product = products.findProduct(pid);
 
         if((client == null) || (product == null)){
-            System.out.println("Invalid information entered.");
+            JOptionPane.showMessageDialog(frame, "Invalid information entered.");
             return false;
         }
 
@@ -82,25 +83,25 @@ public class Warehouse implements Serializable {
     }
 
 
-    public void displayClients(){
-        clients.displayList();
+    public void displayClients(JFrame frame){
+        clients.displayList(frame);
     }
 
-    public void displayProducts(){
-        products.displayList();
+    public void displayProducts(JFrame frame){
+        products.displayList(frame);
     }
 
-    public void displayClientWishlist(String cid){
+    public void displayClientWishlist(String cid, JFrame frame){
         Client client = clients.findClient(cid);
 
         if(client == null){
-            System.out.println("Invalid information entered.");
+            JOptionPane.showMessageDialog(frame, "Invalid information entered.");
             return;
         }
 
         WishList wishlist = client.getWishList();
 
-        wishlist.displayList();
+        wishlist.displayList(frame);
     }
 
     public Iterator<?> getProducts() {
@@ -111,12 +112,12 @@ public class Warehouse implements Serializable {
         return clients.getClients();
     }
 
-    public void processClientWishlist(String cid, Scanner reader){
+    public void processClientWishlist(String cid, Scanner reader, JFrame frame){
         Invoice invoice = new Invoice();
         Client client = clients.findClient(cid);
 
         if(client == null){
-            System.out.println("Invalid information entered.");
+            JOptionPane.showMessageDialog(frame, "Invalid information entered.");
             return;
         }
 
@@ -124,62 +125,56 @@ public class Warehouse implements Serializable {
             Entry entry = (Entry) current.next();
 
             //Display entry to user
-            System.out.println("Current entry: " + entry.toString());
-
-            //Giver user 3 options
-            System.out.println("Select an option:");
-            System.out.println("1 - Leave on wishlist");
-            System.out.println("2 - Order product with existing quantity");
-            System.out.println("3 - Order product with new quantity");
-            int choice = Integer.parseInt(reader.nextLine());
+            int choice = Integer.parseInt(JOptionPane.showInputDialog(frame, "Current entry" + entry.toString()
+                + "\nSelect an option:\n1 - Leave on wishlist\n2 - Order product with existing quantity\n"
+                + "3 - Order product with new quantity"));
 
             if(choice == 2){
                 invoice.addEntry(entry, client);
                 current.remove();
             }
             else if(choice == 3){
-                System.out.print("Enter new quantity: ");
-                int qty = Integer.parseInt(reader.nextLine());
+                int qty = Integer.parseInt(JOptionPane.showInputDialog(frame, "Enter new quantity:"));
                 entry.setQuantity(qty);
                 invoice.addEntry(entry, client);
                 current.remove();
             }
         }
 
-        System.out.println("Here is the finalized invoice:");
-        invoice.displayList();
+        invoice.displayList(frame);
         client.charge(invoice.getTotal());
         client.addInvoice(invoice);
     }
 
-    public void displayClientsWithBalance(){
-
+    public void displayClientsWithBalance(JFrame frame){
+        String lineString = "";
         for(Iterator<?> current = clients.getClients(); current.hasNext();){
             Client client = (Client) current.next();
             if(client.getAmountDue() > 0 ){
-                System.out.println(client.toString() + ", Amount Due: " + client.getAmountDue());
+                lineString += client.toString() + ", Amount Due: " + Float.toString(client.getAmountDue()) + "\n";
             }
         }
+        JOptionPane.showMessageDialog(frame, lineString);
     }
 
-    public void displayProductWaitlist(String pid){
+    public void displayProductWaitlist(String pid, JFrame frame){
         Product product = products.findProduct(pid);
 
         if(product == null){
-            System.out.println("Invalid information entered.");
+            JOptionPane.showMessageDialog(frame, "Invalid information entered.");
             return;
         }
 
         Waitlist waitlist = product.getWaitlist();
 
-        waitlist.displayList();
+        waitlist.displayList(frame);
     }
 
-    public void processShipment(String pid, int quantity, Scanner reader){
+    public void processShipment(String pid, int quantity, Scanner reader, JFrame frame){
         Product product = products.findProduct(pid);
 
         if(product == null){
-            System.out.println("Invalid information entered.");
+            JOptionPane.showMessageDialog(frame, "Invalid information entered.");
             return;
         }
 
@@ -195,22 +190,14 @@ public class Warehouse implements Serializable {
 
             Request request = (Request) current.next();
 
-            //Display entry to user
-            System.out.println("Current request: " + request.toString());
-
-            //Giver user 3 options
-            System.out.println("Select an option:");
-            System.out.println("1 - Leave on waitlist");
-            System.out.println("2 - Order product with existing quantity");
-            System.out.println("3 - Order product with new quantity");
-            int choice = Integer.parseInt(reader.nextLine());
+            int choice = Integer.parseInt(JOptionPane.showInputDialog(frame, "Current request: " + request.toString() + "\n" +
+                "Select and option:\n1 - Leave on waitlist\n2 - Order product with existing quantity\n3 - Order product with new quantity"));
 
             if((choice != 2) && (choice !=3)){
                 continue;
             }
             else if(choice == 3){
-                System.out.print("Enter new quantity: ");
-                int qty = Integer.parseInt(reader.nextLine());
+                int qty = Integer.parseInt(JOptionPane.showInputDialog(frame, "Enter new quantity:"));
                 request.setQuantity(qty);
             }
 
@@ -230,9 +217,7 @@ public class Warehouse implements Serializable {
             request.getClient().charge(invoice.getTotal());
         }
 
-        System.out.println("Updated product information: " + product.toString());
-        System.out.println("Updated product waitlist:");
-        product.getWaitlist().displayList();
+        product.getWaitlist().displayList(frame);
     }
 
     public String toString() {
@@ -274,8 +259,6 @@ public class Warehouse implements Serializable {
         
     }
 
-
-
     private void writeObject(java.io.ObjectOutputStream output){
         try{
             output.defaultWriteObject();
@@ -284,7 +267,6 @@ public class Warehouse implements Serializable {
             ioe.printStackTrace();
         }
     }
-
 
     private void readObject(java.io.ObjectInputStream input){
         try{
@@ -306,16 +288,16 @@ public class Warehouse implements Serializable {
         
     }
 
-    public void displayClientDetails(String cid){
+    public void displayClientDetails(String cid, JFrame frame){
         Client client = clients.findClient(cid);
 
-        System.out.println(client.toString());
+        JOptionPane.showMessageDialog(frame, client.toString());
     }
 
-    public void displayClientTransactions(String cid){
+    public void displayClientTransactions(String cid, JFrame frame){
         Client client = clients.findClient(cid);
 
-        System.out.println(client.getInvoiceList().toString());
+        JOptionPane.showMessageDialog(frame, client.getInvoiceList().toString());
     }
 
     public void acceptClientPayment(String cid, float amount){
@@ -335,7 +317,7 @@ public class Warehouse implements Serializable {
         }
     }
 
-    public void displayInactiveClients(){
-        clients.displayInactiveClients();
+    public void displayInactiveClients(JFrame frame){
+        clients.displayInactiveClients(frame);
     }
 }

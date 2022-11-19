@@ -1,4 +1,7 @@
-import java.util.*;
+import javax.swing.*;
+import javafx.stage.WindowEvent;
+import java.awt.event.*;
+
 
 public class WareContext {
     private int currentState;
@@ -6,7 +9,7 @@ public class WareContext {
     private static WareContext context;
     private int currentUser;
     private String clientID;
-    private Scanner reader = new Scanner(System.in);
+    //private Scanner reader = new Scanner(System.in);
     public static final int IsClient = 0;
     public static final int IsClerk = 1;
     public static final int IsManager = 2;
@@ -15,15 +18,16 @@ public class WareContext {
 
     private WareState[] states;
     private int[][] nextState;
+    private static JFrame WareFrame;
 
     private void retrieve() {
         try {
             Warehouse tempWarehouse = Warehouse.retrieve();
             if (tempWarehouse != null) {
-                System.out.println(" The warehouse has been successfully retrieved from the file WarehouseData \n" );
+                JOptionPane.showMessageDialog(WareFrame, " The warehouse has been successfully retrieved from the file WarehouseData \n" );
                 warehouse = tempWarehouse;
             } else {
-                System.out.println("File doesnt exist; creating new WarehouseData" );
+                JOptionPane.showMessageDialog(WareFrame, "File doesnt exist; creating new WarehouseData" );
                 warehouse = Warehouse.instance();
             }
         } catch(Exception cnfe) {
@@ -43,9 +47,12 @@ public class WareContext {
     public String getClient()
         { return clientID;}
 
+    public JFrame getFrame(){
+        return WareFrame;
+    }
+
     private WareContext() { //constructor
-        System.out.print("Search for saved data to use? (Y/N):");
-        String choice = reader.nextLine();
+        String choice = JOptionPane.showInputDialog(WareFrame, "Search for saved data to use? (Y/N): ");
         if(choice.equals("Y") || choice.equals("y")) {
             retrieve();
         } else {
@@ -68,6 +75,12 @@ public class WareContext {
         nextState[4][0] = -2;nextState[4][1] = -2;nextState[4][2] = -2;nextState[4][3] = -2;nextState[4][4] = 1;nextState[4][5] = -2;
         nextState[5][0] = 0;nextState[5][1] = 1;nextState[5][2] = 2;nextState[5][3] = -2;nextState[5][4] = -2;nextState[5][5] = -1;
         currentState = 5;
+
+        WareFrame = new JFrame("Warehouse GUI");
+        WareFrame.addWindowListener(new WindowAdapter()
+            {public void windowClosing(WindowEvent e) {System.exit(0);}});
+        WareFrame.setSize(400, 400);
+        WareFrame.setLocation(400, 400);
     }
 
     public void changeState(int transition){
@@ -82,16 +95,15 @@ public class WareContext {
     }
 
     private void terminate(){
-        System.out.println("Save data? (Y/N):");
-        String choice = reader.nextLine();
+        String choice = JOptionPane.showInputDialog(WareFrame, "Save Data? (Y/N): ");
         if(choice.equals("Y") || choice.equals("y")) {
             if (warehouse.save()) {
-                System.out.println("The warehouse has been successfully saved in the file WarehouseData \n" );
+                JOptionPane.showMessageDialog(WareFrame, "The warehouse has been successfully saved in the file WarehouseData" );
             } else {
-                System.out.println("There has been an error in saving \n" );
+                JOptionPane.showMessageDialog(WareFrame, "There has been an error in saving \n" );
             }
         }
-        System.out.println("Goodbye \n "); System.exit(0);
+        System.exit(0);
     }
 
     public static WareContext instance() {

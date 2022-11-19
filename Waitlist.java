@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+import javax.swing.*;
 
 public class Waitlist implements Serializable{
     private LinkedList<Request> requests = new LinkedList<Request>();
@@ -26,8 +27,8 @@ public class Waitlist implements Serializable{
         return requests.iterator();
     }
     
-    public void displayList(){
-        System.out.println(toString());
+    public void displayList(JFrame frame){
+        JOptionPane.showMessageDialog(frame, toString());
     }
 
     public Request findRequest(Client client){

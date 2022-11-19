@@ -1,6 +1,7 @@
 import java.io.Serializable;
 import java.util.*;
 import java.time.*;
+import javax.swing.*;
 
 public class Invoice implements Serializable {
     private LinkedList<Entry> entries;
@@ -54,8 +55,8 @@ public class Invoice implements Serializable {
         return entries.toString();
     }
 
-    public void displayList(){
-        System.out.println(toString());
+    public void displayList(JFrame frame){
+        JOptionPane.showMessageDialog(frame, toString());
     }
 
     public float getTotal(){

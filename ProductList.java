@@ -5,6 +5,7 @@
 
 import java.util.*;
 import java.io.*;
+import javax.swing.*;
 
 public class ProductList implements Serializable{
   private static final long serialVersionUID = 1L;
@@ -41,8 +42,8 @@ public class ProductList implements Serializable{
 //-------------displayList-----------------
 // Display Product List
 //-----------------------------------------
-    public void displayList(){
-        System.out.println(toString());
+    public void displayList(JFrame frame){
+        JOptionPane.showMessageDialog(frame, toString());
     }//end DisplayList
     
 //-----------Add Product--------------------

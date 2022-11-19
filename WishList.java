@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+import javax.swing.*;
 
 public class WishList implements Serializable {
   private LinkedList<Entry> entries = new LinkedList<Entry>();
@@ -55,8 +56,8 @@ public class WishList implements Serializable {
     return entries.iterator();
   }
 
-  public void displayList(){
-    System.out.println(toString());
+  public void displayList(JFrame frame){
+    JOptionPane.showMessageDialog(frame, toString());
   }
   
   public Entry findEntry(Product product){
