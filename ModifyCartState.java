@@ -47,7 +47,7 @@ public class ModifyCartState extends WareState implements ActionListener{
         this.editQuantity();
       }
       else if(e.getSource().equals(this.exitButton)){
-        WareContext.instance().changeState(2);
+        this.logout();
       }
     }
   

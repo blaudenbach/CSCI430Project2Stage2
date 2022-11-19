@@ -44,7 +44,7 @@ public class ClientQueryState extends WareState implements ActionListener{
             this.listInactiveClients();
         }
         else if(e.getSource().equals(this.exitButton)){
-            WareContext.instance().changeState(4);
+            this.logout();
         }
     }
   

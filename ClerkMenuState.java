@@ -56,7 +56,7 @@ public class ClerkMenuState extends WareState implements ActionListener{
       this.displayProductWaitlist();
     }
     else if(e.getSource().equals(this.exitButton)){
-      WareContext.instance().changeState(1);
+      this.logout();
     }
   }
 

@@ -44,7 +44,7 @@ public class ManagerMenuState extends WareState implements ActionListener{
       this.becomeClerk();
     }
     else if(e.getSource().equals(this.exitButton)){
-      WareContext.instance().changeState(2);
+      this.logout();
     }
   }
 

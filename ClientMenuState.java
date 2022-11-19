@@ -55,7 +55,7 @@ public class ClientMenuState extends WareState implements ActionListener{
       this.displayTransactions();
     }
     else if(e.getSource().equals(this.exitButton)){
-      WareContext.instance().changeState(0);
+      this.logout();
     }
   }
 
